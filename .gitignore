@@ -2,3 +2,4 @@
 *.iml
 .vagrant
 spec/fixtures/
+pkg/
