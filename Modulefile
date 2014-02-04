@@ -1,5 +1,5 @@
 name 'mikegleasonjr-server'
-version '0.0.1'
+version '0.0.2'
 author 'Mike Gleason jr Couturier <mikegleasonjr@gmail.com>'
 summary 'Installs and Configures a basic server. Tested on Debian systems.'
 source 'git://github.com/mikegleasonjr/puppet-server.git'

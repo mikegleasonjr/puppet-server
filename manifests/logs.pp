@@ -14,20 +14,18 @@ class server::logs inherits server {
     hasrestart => true,
   }
 
-  File_line {
-    path   => '/etc/rsyslog.conf',
-    ensure => $ensure,
-    notify => Service['rsyslog'],
-  }
-
-  file_line { 'rsyslog hostname':
-    line   => "\$LocalHostName ${fqdn}",
-    match  => '^\$LocalHostName +[a-zA-Z0-9.-]+$',
+  exec { 'rsyslog fqdn':
+    command => "sed -i '1i \$PreserveFQDN on' /etc/rsyslog.conf",
+    unless  => 'grep -c "\$PreserveFQDN on" /etc/rsyslog.conf',
+    path    => ['/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/'],
+    notify  => Service['rsyslog'],
   }
 
   file_line { 'rsyslog remote':
+    path    => '/etc/rsyslog.conf',
     line    => "*.* @${remote_logs_host}:${remote_logs_port}",
     match   => '^\*\.\* +@[a-zA-Z0-9.]+:[0-9]+$',
-    require => File_line['rsyslog hostname'],
+    ensure  => $ensure,
+    notify  => Service['rsyslog'],
   }
 }

@@ -149,21 +149,19 @@ describe 'server', :type => :class do
       :hasrestart => true
     ) }
 
-    it { should contain_file_line('rsyslog hostname').with(
-      :path => '/etc/rsyslog.conf',
-      :line => '$LocalHostName host.domain.com',
-      :match => '^\$LocalHostName +[a-zA-Z0-9.-]+$',
-      :notify => 'Service[rsyslog]',
-      :ensure => 'absent'
-    ) }
+    it { should contain_exec('rsyslog fqdn').with(
+      :command => "sed -i '1i \$PreserveFQDN on' /etc/rsyslog.conf",
+      :unless  => 'grep -c "\$PreserveFQDN on" /etc/rsyslog.conf',
+      :path    => ['/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/'],
+      :notify  => 'Service[rsyslog]'
+    )}
 
     it { should contain_file_line('rsyslog remote').with(
       :path => '/etc/rsyslog.conf',
       :line => '*.* @undef:0',
       :notify => 'Service[rsyslog]',
       :match => '^\*\.\* +@[a-zA-Z0-9.]+:[0-9]+$',
-      :ensure => 'absent',
-      :require => 'File_line[rsyslog hostname]'
+      :ensure => 'absent'
     ) }
 
     context 'with remote_logs_enabled => true, remote_logs_host => logs.papertrailapp.com.test, remote_logs_port => 1234' do
@@ -173,21 +171,12 @@ describe 'server', :type => :class do
           :remote_logs_port => 1234
       } }
 
-      it { should contain_file_line('rsyslog hostname').with(
-        :path => '/etc/rsyslog.conf',
-        :line => '$LocalHostName host.domain.com',
-        :match => '^\$LocalHostName +[a-zA-Z0-9.-]+$',
-        :notify => 'Service[rsyslog]',
-        :ensure => 'present'
-      ) }
-
       it { should contain_file_line('rsyslog remote').with(
         :path => '/etc/rsyslog.conf',
         :line => '*.* @logs.papertrailapp.com.test:1234',
         :notify => 'Service[rsyslog]',
         :match => '^\*\.\* +@[a-zA-Z0-9.]+:[0-9]+$',
-        :ensure => 'present',
-        :require => 'File_line[rsyslog hostname]'
+        :ensure => 'present'
       ) }
     end
   end
