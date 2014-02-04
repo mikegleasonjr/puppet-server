@@ -53,7 +53,7 @@ This will:
 
 ##Usage
 
-You can change the default behavior with the following options.
+You can change the default behavior with the following options:
 
 ###Packages installed
 
@@ -147,7 +147,10 @@ sshguard will automatically insert blocking rules to offending IPs at the beginn
 
 ##Limitations
 
-This module has been tested on Ubuntu 12.04
+This module has been tested on
+
+* Ubuntu 12.04
+* Debian 6
 
 Bugs can be reported using Github Issues:
 

@@ -93,12 +93,17 @@ describe 'server', :type => :class do
         :ensure => 'latest'
       ) }
 
+      it { should contain_file('/etc/default/sshguard').with(
+        :ensure => 'present',
+        :require => 'Package[sshguard]'
+      ) }
+
       it { should contain_file_line('sshguard configuration').with(
         :path => '/etc/default/sshguard',
         :line => 'ENABLE_FIREWALL=0',
         :match => '^ENABLE_FIREWALL=[01]$',
         :ensure => 'present',
-        :require => 'Package[sshguard]'
+        :require => 'File[/etc/default/sshguard]'
       ) }
 
       it { should contain_firewallchain('sshguard:filter:IPv4').with(

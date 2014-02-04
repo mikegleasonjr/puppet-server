@@ -3,12 +3,17 @@ class server::firewall {
     ensure => latest,
   }
 
+  file { '/etc/default/sshguard':
+    ensure => present,
+    require => Package['sshguard'],
+  }
+
   file_line { 'sshguard configuration':
     path    => '/etc/default/sshguard',
     line    => 'ENABLE_FIREWALL=0',
     match   => '^ENABLE_FIREWALL=[01]$',
     ensure  => present,
-    require => Package['sshguard'],
+    require => File['/etc/default/sshguard'],
   }
 
   resources { 'firewall':
