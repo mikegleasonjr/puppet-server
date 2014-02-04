@@ -1,0 +1,12 @@
+[submodule "vagrant/modules/stdlib"]
+	path = vagrant/modules/stdlib
+	url = git://github.com/puppetlabs/puppetlabs-stdlib.git
+[submodule "vagrant/modules/firewall"]
+	path = vagrant/modules/firewall
+	url = git://github.com/puppetlabs/puppetlabs-firewall.git
+[submodule "vagrant/modules/ntp"]
+	path = vagrant/modules/ntp
+	url = git://github.com/puppetlabs/puppetlabs-ntp.git
+[submodule "vagrant/modules/timezone"]
+	path = vagrant/modules/timezone
+	url = git://github.com/saz/puppet-timezone.git

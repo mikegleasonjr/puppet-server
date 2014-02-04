@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = 'precise-cloudimg'
+  config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+  config.vm.synced_folder '../', '/etc/puppet/modules/server'
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = 'manifests'
+    puppet.manifest_file  = 'site.pp'
+    puppet.module_path = 'modules'
+    puppet.facter = {
+      'domain' => 'test.com',
+      'memorysize_mb' => 512
+    }
+  end
+end
