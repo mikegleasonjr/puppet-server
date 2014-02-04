@@ -3,7 +3,7 @@ version '0.0.1'
 author 'Mike Gleason jr Couturier <mikegleasonjr@gmail.com>'
 summary 'Installs and Configures a basic server. Tested on Debian systems.'
 source 'git://github.com/mikegleasonjr/puppet-server.git'
-project_page 'https://github.com/mikegleasonjr/puppet-server'
+project_page 'http://forge.puppetlabs.com/mikegleasonjr/server'
 license 'ASL 2.0'
 
 dependency 'puppetlabs/firewall', '>= 0.4.2'
