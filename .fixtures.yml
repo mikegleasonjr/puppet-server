@@ -7,7 +7,7 @@ fixtures:
       ref: "4.1.0"
     firewall:
       repo: "git://github.com/puppetlabs/puppetlabs-firewall.git"
-      ref: "0.4.2"
+      ref: "1.0.0"
     ntp:
       repo: "git://github.com/puppetlabs/puppetlabs-ntp.git"
       ref: "3.0.0"

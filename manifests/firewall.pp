@@ -1,6 +1,7 @@
 class server::firewall {
   package { 'sshguard':
     ensure => latest,
+    before => Class['server::firewall::pre'],
   }
 
   file { '/etc/default/sshguard':
@@ -14,10 +15,6 @@ class server::firewall {
     match   => '^ENABLE_FIREWALL=[01]$',
     ensure  => present,
     require => File['/etc/default/sshguard'],
-  }
-
-  resources { 'firewall':
-    purge => true,
   }
 
   include server::firewall::pre

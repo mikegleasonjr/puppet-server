@@ -11,14 +11,10 @@ class server(
   $swap_size           = $server::params::swap_size
 ) inherits server::params {
   validate_array($packages)
-  validate_string($packages_ensure)
-  validate_string($apt_update_interval)
-  validate_string($timezone)
-  validate_bool($remote_logs_enabled)
-  validate_string($remote_logs_host)
-  if ! is_integer($remote_logs_port) { fail('`remote_logs_port` must be an integer') }
-  validate_bool($swap_enabled)
+  validate_string($packages_ensure, $apt_update_interval, $timezone, $remote_logs_host)
+  validate_bool($remote_logs_enabled, $swap_enabled)
   validate_absolute_path($swap_filename)
+  if ! is_integer($remote_logs_port) { fail('`remote_logs_port` must be an integer') }
   if ! is_integer($swap_size) { fail('`swap_size` must be an integer') }
 
   include server::packages

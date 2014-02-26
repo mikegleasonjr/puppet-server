@@ -1,11 +1,11 @@
 name 'mikegleasonjr-server'
-version '0.1.0'
+version '0.1.1'
 author 'Mike Gleason jr Couturier <mikegleasonjr@gmail.com>'
 summary 'The Server module serves as a base configuration for all your managed servers.'
 source 'git://github.com/mikegleasonjr/puppet-server.git'
 project_page 'http://forge.puppetlabs.com/mikegleasonjr/server'
 license 'ASL 2.0'
 
-dependency 'puppetlabs/firewall', '>= 0.4.2'
+dependency 'puppetlabs/firewall', '>= 1.0.0'
 dependency 'puppetlabs/ntp', '>= 3.0.1'
 dependency 'saz/timezone', '>= 2.0.0'

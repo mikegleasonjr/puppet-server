@@ -40,10 +40,6 @@ describe 'server', :type => :class do
       :require => 'Class[Server::Firewall::Pre]'
     ) }
 
-    it { should contain_resources('firewall').with(
-      :purge => 'true'
-    ) }
-
     it { should contain_firewall('001 accept all icmp').with(
       :proto => 'icmp',
       :action => 'accept',
@@ -90,7 +86,8 @@ describe 'server', :type => :class do
 
     describe 'use sshguard for ssh connection attemps' do
       it { should contain_package('sshguard').with(
-        :ensure => 'latest'
+        :ensure => 'latest',
+        :before => 'Class[Server::Firewall::Pre]'
       ) }
 
       it { should contain_file('/etc/default/sshguard').with(
@@ -106,9 +103,12 @@ describe 'server', :type => :class do
         :require => 'File[/etc/default/sshguard]'
       ) }
 
-      it { should contain_firewallchain('sshguard:filter:IPv4').with(
-        :ensure => 'present'
-      ) }
+      it { should contain_firewallchain('sshguard:filter:IPv4').with(:ensure => 'present', :purge  => false) }
+      it { should contain_firewallchain('INPUT:filter:IPv4').with(:ensure => 'present', :purge  => true) }
+      it { should contain_firewallchain('FORWARD:filter:IPv4').with(:ensure => 'present', :purge  => true) }
+      it { should contain_firewallchain('OUTPUT:filter:IPv4').with(:ensure => 'present', :purge  => true) }
+      it { should contain_firewallchain('PREROUTING:raw:IPv4').with(:ensure => 'present', :purge  => true) }
+      it { should contain_firewallchain('OUTPUT:raw:IPv4').with(:ensure => 'present', :purge  => true) }
 
       it { should contain_firewall('003 forward ssh to sshguard').with(
         :chain => 'INPUT',

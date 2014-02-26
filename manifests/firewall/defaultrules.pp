@@ -1,6 +1,18 @@
 class server::firewall::defaultrules {
+  firewallchain {[
+      'INPUT:filter:IPv4',
+      'FORWARD:filter:IPv4',
+      'OUTPUT:filter:IPv4',
+      'PREROUTING:raw:IPv4',
+      'OUTPUT:raw:IPv4',
+    ]:
+    ensure => present,
+    purge  => true,
+  }
+
   firewallchain { 'sshguard:filter:IPv4':
     ensure => present,
+    purge  => false,
   }
 
   firewall { '003 forward ssh to sshguard':
